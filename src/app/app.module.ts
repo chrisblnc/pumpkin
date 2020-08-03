@@ -11,6 +11,8 @@ import { InputComponent } from './input/input.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
+import { AuthService } from './services/auth.service'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +28,9 @@ import { SignupComponent } from './auth/signup/signup.component';
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
