@@ -1,0 +1,43 @@
+<div class="field">
+    <label class="label">{{ name }}</label>
+    <div class="control has-icons-left has-icons-right">
+        <input 
+            class="input"
+            [ngClass]="{
+                'is-danger': getErrorState(),
+                'is-success': false
+            }"
+            type="{{ type }}"
+            placeholder="{{ placeholder }}"
+            [(ngModel)]="value"
+            (keyup)="onChange()"
+        />
+        <span class="icon is-small is-left">
+            <i class="fas {{ fa_icon }}"></i>
+        </span>
+        <span 
+            class="icon is-small is-right"
+            [ngClass]="{
+                'is-hidden': true
+            }"
+        >
+            <i class="fas fa-check"></i>
+        </span>
+        <span 
+            class="icon is-small is-right"
+            [ngClass]="{
+                'is-hidden': !getErrorState()
+            }"
+        >
+            <i class="fas fa-exclamation-triangle"></i>
+        </span>
+    </div>
+    <p 
+        class="help is-danger"
+        [ngClass]="{
+            'is-hidden': false
+        }"
+    >
+        {{ getErrorMessage() }}
+    </p>
+</div>

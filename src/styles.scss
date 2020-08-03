@@ -9,4 +9,18 @@ $warning: #F2D752;
 
 $family-primary: 'Lexend Deca', sans-serif;
 
+.image img {
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.navbar.is-mobile {
+    padding: 10px 15px !important;
+}
+
+.navbar .title {
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
 @import "bulma";
