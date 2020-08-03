@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+$primary: #E7A14D;
+$primary-invert: #fff;
+
+$danger: #F01E1E;
+$success: #30D066;
+$warning: #F2D752;
+
+$family-primary: 'Lexend Deca', sans-serif;
+
+@import "bulma";
