@@ -1,0 +1,117 @@
+<app-header title="Sign up"></app-header>
+
+<section class="section container" (keyup)="checkError()">
+    
+    <div class="container block">
+
+        <app-input
+            label="Pseudo"
+            type="text"
+            placeholder="Enter a pseudo"
+            fa_icon="fa-user"
+            (alert)="onError('pseudo', $event)"
+        ></app-input>
+
+    </div>
+
+    <div class="container block">
+
+        <app-input
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            (alert)="onError('email', $event)"     
+        ></app-input>
+
+    </div>
+
+    <div class="container block">
+
+        <app-input
+            label="Password"
+            type="password"
+            placeholder="Enter a new password"
+            (alert)="onError('password', $event)"
+            (value)="setPassword($event)"
+        ></app-input>
+
+    </div>
+
+    <div class="container block">
+
+        <app-input
+            label="Password confirmation"
+            type="password"
+            placeholder="Reenter password"
+            (alert)="onError('passwordConfirmation', $event)"
+            (value)="setPasswordConfirmation($event)"
+            (keyup)="passwordConfirmationNoMatch()"
+        ></app-input>
+
+    </div>
+
+    <div class="container block">
+
+        <!-- Stay connected -->
+        <div class="field">
+            <div class="control">
+                <label class="checkbox">
+                <input 
+                    type="checkbox"
+                    (change)="checkTermsAndConditions()"
+                    [(ngModel)]="termsAndConditions"
+                />
+                I agree to the <a href="#">terms and conditions</a>.
+                </label>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="container block">
+
+        <!-- Buttons validation -->
+        <div class="field is-grouped">
+            <div class="control">
+                <button 
+                class="button is-info"
+                [disabled]="buttonLock"
+                >
+                <b>Sign up</b>
+                </button>
+            </div>
+            <div class="control">
+                <button 
+                class="button is-info is-light"
+                >
+                <b>Cancel</b>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="container block">
+
+        <!-- Not yet register -->
+        <div class="field">
+            Already have an account ? <a routerLink="/login">Log in</a> now.
+        </div>
+
+    </div>
+
+    <div class="container block">
+
+        <!-- Error connection -->
+        <p 
+            class="help is-danger"
+            [ngClass]="{
+                'is-hidden': false
+            }"
+        >
+            {{ errorMessage }}
+        </p>
+
+    </div>
+
+</section>

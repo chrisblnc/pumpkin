@@ -21,4 +21,5 @@ export class AppComponent {
   constructor() {
     firebase.initializeApp(this.firebaseConfig);
   }
+
 }

@@ -1,15 +1,15 @@
 <div class="field">
-    <label class="label">{{ name }}</label>
+    <label class="label">{{ label }}</label>
     <div class="control has-icons-left has-icons-right">
         <input 
             class="input"
             [ngClass]="{
-                'is-danger': getErrorState(),
-                'is-success': false
+                'is-danger': error.state,
+                'is-success': success
             }"
             type="{{ type }}"
             placeholder="{{ placeholder }}"
-            [(ngModel)]="value"
+            [(ngModel)]="val"
             (keyup)="onChange()"
         />
         <span class="icon is-small is-left">
@@ -18,7 +18,7 @@
         <span 
             class="icon is-small is-right"
             [ngClass]="{
-                'is-hidden': true
+                'is-hidden': !success
             }"
         >
             <i class="fas fa-check"></i>
@@ -26,7 +26,7 @@
         <span 
             class="icon is-small is-right"
             [ngClass]="{
-                'is-hidden': !getErrorState()
+                'is-hidden': !error.state
             }"
         >
             <i class="fas fa-exclamation-triangle"></i>
@@ -34,10 +34,7 @@
     </div>
     <p 
         class="help is-danger"
-        [ngClass]="{
-            'is-hidden': false
-        }"
     >
-        {{ getErrorMessage() }}
+        {{ error.message }}
     </p>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-input',
@@ -7,33 +7,49 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class InputComponent implements OnInit {
 
-  @Input() name: string;
+  @Input() label: string;
   @Input() type: string;
   @Input() placeholder: string;
+
   @Input() fa_icon = "";
 
   private LENGTH_PASSWORD = 6;
 
-  value: string;
+  val: string;
 
-  private error = {
+  @Output() alert = new EventEmitter<boolean>();
+  @Output() value = new EventEmitter<string>();
+
+  error = {
     "state": false,
     "message": ""
   }
 
+  success: boolean;
+
   constructor() { }
 
   ngOnInit(): void {
-    this.value = "";
+    this.val = "";
 
     this.error.state = false;
     this.error.message = "";
+
+    this.success = false;
+
+    if (this.type === "email")
+      this.fa_icon = "fa-envelope";
+    else if (this.type === "password")
+      this.fa_icon = "fa-lock";
   }
 
-  onChange() {
-    this.error.state = !this.isValid();
+  onChange() { 
+    this.success = this.isValid();
+    this.error.state = !this.success;
 
-    console.log(this.error);
+    if (this.success)
+      this.value.emit(this.val);      
+    this.alert.emit(this.error.state);
   }
 
   isValid(): boolean {
@@ -43,20 +59,20 @@ export class InputComponent implements OnInit {
   }
 
   isEmpty(): boolean {
-    if (this.value === "")
+    if (this.val === "")
       return true;
     return false;
   }
 
   isNotEmail(): boolean {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(this.value))
+    if (re.test(this.val))
         return false;
     return true;
   }
 
   insufficientPasswordLength(): boolean {
-    if (this.value.length >= this.LENGTH_PASSWORD)
+    if (this.val.length >= this.LENGTH_PASSWORD)
         return false;
     this.error.message = "Password must contain at least 6 characters";
     return true;
@@ -64,7 +80,7 @@ export class InputComponent implements OnInit {
 
   haveError(): boolean {
     if (this.isEmpty())
-      this.error.message = this.name + " is required";
+      this.error.message = this.label + " is required";
     else if (this.type === "email")
       if (this.isNotEmail())
         this.error.message = "Must be a valid email";
@@ -79,14 +95,6 @@ export class InputComponent implements OnInit {
     if (this.error.message != "")
       return true;    
     return false;
-  }
-
-  getErrorMessage(): string {
-    return this.error.message;
-  }
-
-  getErrorState(): boolean {
-    return this.error.state;
   }
 
 }
