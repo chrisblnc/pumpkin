@@ -1,40 +1,47 @@
+<!-- input field -->
 <div class="field">
+    <!-- title of the input -->
     <label class="label">{{ label }}</label>
     <div class="control has-icons-left has-icons-right">
+        <!-- input with params an fonction's assignement -->
         <input 
             class="input"
             [ngClass]="{
-                'is-danger': error.state,
-                'is-success': success
+                'is-danger': !hide.error,
+                'is-success': !hide.success
             }"
             type="{{ type }}"
             placeholder="{{ placeholder }}"
-            [(ngModel)]="val"
-            (keyup)="onChange()"
+            name="{{ name }}"
+            (keyup)="onType()"
+            [(ngModel)]="userValue"
         />
+        <!-- success elements -->
         <span class="icon is-small is-left">
             <i class="fas {{ fa_icon }}"></i>
         </span>
         <span 
             class="icon is-small is-right"
             [ngClass]="{
-                'is-hidden': !success
+                'is-hidden': hide.success
             }"
         >
             <i class="fas fa-check"></i>
         </span>
+        <!-- failed elements -->
         <span 
             class="icon is-small is-right"
             [ngClass]="{
-                'is-hidden': !error.state
+                'is-hidden': hide.error
             }"
         >
             <i class="fas fa-exclamation-triangle"></i>
         </span>
     </div>
+    <!-- field for error message -->
     <p 
         class="help is-danger"
     >
-        {{ error.message }}
+        {{ errorMessage }}
     </p>
 </div>

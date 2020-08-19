@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-input',
@@ -6,95 +6,70 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnInit {
-
+  
+  // input params
   @Input() label: string;
   @Input() type: string;
   @Input() placeholder: string;
+  @Input() name: string;
 
+  // class of the icon inside the input
   @Input() fa_icon = "";
 
-  private LENGTH_PASSWORD = 6;
+  // get an error in the form 
+  @Input() errorMessage: string;
 
-  val: string;
-
-  @Output() alert = new EventEmitter<boolean>();
+  // return the user's value 
   @Output() value = new EventEmitter<string>();
 
-  error = {
-    "state": false,
-    "message": ""
-  }
+  // the user's value 
+  userValue: string;
+  
+  // state if there is an error
+  errorState: boolean;
 
-  success: boolean;
+  // value for hide error or success indicator
+  hide = {
+    "error": true,
+    "success": true
+  };
 
   constructor() { }
 
+  // on changes
+  ngOnChanges(): void {
+    if (this.errorMessage != "")
+      this.errorState = true;
+    else
+      this.errorState = false;
+
+    if (this.errorState === true) {
+      this.hide.error = false;
+      this.hide.success = true;
+    }
+    else {
+      this.hide.error = true;
+      this.hide.success = true;
+    }
+  }
+
+  // on init
   ngOnInit(): void {
-    this.val = "";
-
-    this.error.state = false;
-    this.error.message = "";
-
-    this.success = false;
 
     if (this.type === "email")
       this.fa_icon = "fa-envelope";
     else if (this.type === "password")
       this.fa_icon = "fa-lock";
+
+    this.hide.error = true;
+    this.hide.success = true;
+    this.errorMessage = "";
+
+    this.userValue = "";
   }
 
-  onChange() { 
-    this.success = this.isValid();
-    this.error.state = !this.success;
-
-    if (this.success)
-      this.value.emit(this.val);      
-    this.alert.emit(this.error.state);
+  // when the user is typing something
+  onType() {
+    this.value.emit(this.userValue);
   }
-
-  isValid(): boolean {
-    if (this.haveError())
-      return false;
-    return true;
-  }
-
-  isEmpty(): boolean {
-    if (this.val === "")
-      return true;
-    return false;
-  }
-
-  isNotEmail(): boolean {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(this.val))
-        return false;
-    return true;
-  }
-
-  insufficientPasswordLength(): boolean {
-    if (this.val.length >= this.LENGTH_PASSWORD)
-        return false;
-    this.error.message = "Password must contain at least 6 characters";
-    return true;
-  }
-
-  haveError(): boolean {
-    if (this.isEmpty())
-      this.error.message = this.label + " is required";
-    else if (this.type === "email")
-      if (this.isNotEmail())
-        this.error.message = "Must be a valid email";
-      else 
-        this.error.message = "";
-    else if (this.type === "password")
-      if (this.insufficientPasswordLength())
-        this.error.message = "Password must contain at least 6 characters";
-    else
-      this.error.message = "";
-
-    if (this.error.message != "")
-      return true;    
-    return false;
-  }
-
 }

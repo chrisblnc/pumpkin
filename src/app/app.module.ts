@@ -11,7 +11,8 @@ import { InputComponent } from './input/input.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
-import { AuthService } from './services/auth.service'
+import { AuthService } from './services/auth.service';
+import { ErrorInputService } from './services/error-input.service'
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { AuthService } from './services/auth.service'
     FormsModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    ErrorInputService
   ],
   bootstrap: [AppComponent]
 })
