@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ErrorInputService } from '../../services/error-input.service';
+import { ErrorInputService } from 'src/app/services/error-input.service';
 
 @Component({
   selector: 'app-signup',
@@ -8,113 +8,38 @@ import { ErrorInputService } from '../../services/error-input.service';
 })
 export class SignupComponent implements OnInit {
 
-  // for gestionnary of the input's error
-  errorMail: any;
-
-  errorField = {
-    "pseudo": false,
-    "email": false,
-    "password": false
+  error = {
+    "pseudo": null,
+    "email": null
   };
 
-  errorMessage: string;
-
-  pseudo: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-
-  termsAndConditions: boolean;
-
-  buttonLock: boolean;
+  submitLock: boolean;
 
   // for ErrorInputService uses
-  constructor(private errorInputService: ErrorInputService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.pseudo = "t";
-    this.email= "";
-    this.password= "t";
-    this.passwordConfirmation= "t";
-    this.termsAndConditions = false;
-
-    this.errorMessage = "";
-    this.buttonLock = false;
-
-    // error is the ErrorInputService now
-    this.errorMail = this.errorInputService; 
+    this.submitLock = false;
   }
 
-  // set the value of each input
-  setValue(e:string, field: any) {
-    switch (field) {
-      case 'pseudo':
-        this.pseudo = e;
-        break;
-      case 'email':
-        this.email = e;
-        break;
-      case 'password':
-        this.password = e;
-        break;
-      case 'passwordConfirmation':
-        this.passwordConfirmation = e;
-        break;
-      default:
-        console.error("Error, unknown field name : " + field);
-    }
-  }
-
-  // check if the form can enable the button
-  /*
-  canEnableBtn() {
-    if (
-      this.error.pseudo != "" ||
-      
-      this.error.email ||
-      this.error.password ||
-      this.error.passwordConfirmation ||
-     
-      this.error.termsAndConditions
-    )
-      this.buttonLock = true;
-    else
-      this.buttonLock = false;
-  }
-  */
-
-  //--- function we do not uses yet ---//
-  /*
-  passwordConfirmationNoMatch(): string {
-    console.log("flag");
-    if (this.errorMessage != "")
-      return this.errorMessage;
-    return "";    
-  }
-
-  passwordCheckMactch() {
-    if (this.password === this.passwordConfirmation) {
-      this.error.passwordConfirmation = false;
-      this.errorMessage = "";
-    }
-    else {
-      this.errorMessage = "Both password must match";
-      this.error.passwordConfirmation = true;
-    }
-
-    console.log("check : " + this.errorMessage);
-    console.log("val 1 : " + this.password + " / val 2 :" + this.passwordConfirmation)
-  }
-  */
-
-  // when the user valid the form
-  onSubmit() {
-    // here we need to check if mail is a mail, if pwd & pwd conf are matching 
-    // if mail has error then put it in red
-    // if pwd & pwd conf are no matching then put their in red
-    this.errorField.email  = this.errorMail.checkIfEmpty(this.email);
+  onChange(): void {
     
+  }
 
-    console.log(this.errorField.email);
+  getError(e: ErrorInputService, field: string): void {
+    this.error[field] = e;
+    if (this.error[field].getState())
+      console.log(field + ": aie c'est vide ca...");
+    else 
+      console.log(field + ": ca c'est bien.");
+  }
+
+  onSubmit() {
+    console.log("pseudo: " + this.error.pseudo.getState());
+    console.log("email: " + this.error.email.getState());
+  }
+
+  makeError() {
+    this.error.email.GenerateError("This must be a valid email");
   }
 }

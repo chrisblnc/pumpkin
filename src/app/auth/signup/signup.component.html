@@ -9,8 +9,8 @@
             type="text"
             placeholder="Enter a pseudo"
             fa_icon="fa-user"
-            [errorMessage]="errorMessage"
-            (value)="setValue($event, 'pseudo')"
+            (error)="getError($event, 'pseudo')"
+            (change)="onChange()"
         ></app-input>
     </div>
 
@@ -20,30 +20,9 @@
             label="Email"
             type="email"
             placeholder="Enter your email"
-            [errorMessage]="errorMail.getMessage()"
-            (value)="setValue($event, 'email')"
-        ></app-input>
-    </div>
-
-    <!-- password field -->
-    <div class="container block">
-        <app-input
-            label="Password"
-            type="password"
-            placeholder="Enter a new password"
-            [errorMessage]="errorMessage"
-            (value)="setValue($event, 'password')"
-        ></app-input>
-    </div>
-
-    <!-- password confirmation field -->
-    <div class="container block">
-        <app-input
-            label="Password confirmation"
-            type="password"
-            placeholder="Reenter password"
-            [errorMessage]="errorMessage"
-            (value)="setValue($event, 'passwordConfirmation')"
+            fa_icon="fa-envelope"
+            (error)="getError($event, 'email')"
+            (change)="onChange()"
         ></app-input>
     </div>
 
@@ -54,7 +33,7 @@
                 <label class="checkbox">
                 <input 
                     type="checkbox"
-                    [(ngModel)]="termsAndConditions"
+                    [(ngModel)]="submitLock"
                 />
                 I agree to the <a href="#">terms and conditions</a>.
                 </label>
@@ -69,7 +48,7 @@
             <div class="control">
                 <button 
                 class="button is-info"
-                [disabled]="buttonLock"
+                [disabled]="!submitLock"
                 (click)="onSubmit()"
                 >
                 <b>Sign up</b>
@@ -79,6 +58,7 @@
             <div class="control">
                 <button 
                 class="button is-info is-light"
+                (click)="makeError()"
                 >
                 <b>Cancel</b>
                 </button>

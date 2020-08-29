@@ -23,7 +23,6 @@ export class ErrorInputService {
 
   // get the error message
   getMessage(): string {
-    console.log(this.message);
     return this.message;
   }
 
@@ -35,8 +34,9 @@ export class ErrorInputService {
   // --------------------------- //
 
   // check if the val is empty
-  checkIfEmpty(val): boolean {
+  IsEmpty(val): boolean {
     this.state = false;
+    this.message = "";
     if (val === "") {
       this.state = true;
       this.message = "This field is required";
@@ -45,20 +45,31 @@ export class ErrorInputService {
   }
 
   // check if the param is a valid email
-  checkIsEmail(email: string): boolean {
-    this.state = false;
+  IsNotEmail(email: string): boolean {
+    this.state = true;
+    this.message = "Must be a valid email";
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(email))
-      this.state = true;
+    if (re.test(email)) {
+      this.state = false;
+      this.message = "";
+    }
     return this.state;
   }
 
   // check if the password has the length required
-  checkPasswordLength(password: string): boolean {
+  IncorrectPasswordLength(password: string): boolean {
     this.state = false;
     if (password.length >= this.LENGTH_PASSWORD)
       this.state = true;
     this.message = "Password must contain at least "+ this.LENGTH_PASSWORD + " characters";
     return this.state;
+  }
+
+  // --------------------------- //
+
+  // generate an error with the message pass
+  GenerateError(message: string) {
+    this.state = true;
+    this.message = message;
   }
 }
