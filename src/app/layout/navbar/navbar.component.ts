@@ -29,6 +29,10 @@ export class NavbarComponent implements OnInit {
     );
   }
 
+  scrollTop() {
+    window.scrollTo(0, 0);
+  }
+
   onSignOut() {
     this.authService.signOutUser();
     this.router.navigate(['welcome']);

@@ -50,6 +50,8 @@ export class SinglePostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
+    
     this.userSubscription = this.userService.userSubject.subscribe(
       (users: User[]) => {
         this.users = users;

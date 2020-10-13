@@ -4,7 +4,7 @@ import { Post } from '../../models/post.model';
 import * as firebase from 'firebase';
 import { PostService } from '../../services/post.service';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 
 @Component({
@@ -26,7 +26,18 @@ export class PostFormComponent implements OnInit {
     private postService: PostService,
     private userService: UserService,
     private router: Router
-  ) { }
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+        return false;
+    }
+
+    this.router.events.subscribe((evt) => {
+        if (evt instanceof NavigationEnd) {
+          // trick the Router into believing it's last link wasn't previously loaded
+          this.router.navigated = false;
+        }
+    });
+  }
 
   ngOnInit(): void {
     this.userService.getUserID(firebase.auth().currentUser.email).then(
