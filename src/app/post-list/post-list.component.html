@@ -8,48 +8,48 @@
                     [id]="i"
                 >
                     <div class="card-content">
-                        <a (click)="onViewPost(i)">
+                        <a (click)="onViewPost(posts.length-i-1)">
                             <div class="media">
                                 <div class="media-left">
                                     <figure class="image is-48x48">
-                                        <img [src]="users[post.author].img" alt="Placeholder image">
+                                        <img [src]="users[posts[posts.length-i-1].author].img" alt="Placeholder image">
                                     </figure>
                                 </div>
                                 <div class="media-content">
-                                    <p class="title is-4">{{ users[post.author].username }}</p>
-                                    <p class="subtitle is-6"><a>@{{ users[post.author].username }}</a></p>
+                                    <p class="title is-4">{{ users[posts[posts.length-i-1].author].username }}</p>
+                                    <p class="subtitle is-6"><a>@{{ users[posts[posts.length-i-1].author].username }}</a></p>
                                 </div>
                             </div>
                             <div class="tags">
                                 <span class="tag">
-                                    <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:m a'}}</time>
+                                    <time datetime="2016-1-1">{{ posts[posts.length-i-1].date | date: 'MMM d, y, h:mm a'}}</time>
                                 </span>
                             </div>
 
-                            <div class="block card-image" *ngIf="post.img">
+                            <div class="block card-image" *ngIf="posts[posts.length-i-1].img">
                                 <figure class="image is-4by3">
-                                    <img [src]="post.img" alt="Placeholder image">
+                                    <img [src]="posts[posts.length-i-1].img" alt="Placeholder image">
                                 </figure>
                             </div>
 
                             <div class="content">
-                                {{ post.content }}
+                                {{ posts[posts.length-i-1].content }}
                             </div>
 
                             <div class="tags">
                                 <span class="tag">
-                                    <b class="has-text-info">{{ post.like }} Like</b>
+                                    <b class="has-text-info">{{ posts[posts.length-i-1].like }} Like</b>
                                 </span>
                                 <span class="tag">
-                                    <b class="has-text-info">{{ post.msg }} Comment</b>
+                                    <b class="has-text-info">{{ posts[posts.length-i-1].msg }} Comment</b>
                                 </span>
                             </div>
                         </a>
                     </div>
 
                     <footer class="card-footer">
-                        <a (click)="onLike(post)" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
-                        <a (click)="onOpenComment(i)" class="card-footer-item"><b><i class="far fa-comments msg-color"></i> Msg</b></a>
+                        <a (click)="onLike(posts[posts.length-i-1])" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
+                        <a (click)="onOpenComment(posts.length-i-1)" class="card-footer-item"><b><i class="far fa-comments msg-color"></i> Msg</b></a>
                         <a class="card-footer-item"><b><i class="fas fa-share share-color"></i> Share</b></a>
                     </footer>
 
@@ -57,7 +57,7 @@
                     <div 
                         class="modal" 
                         [ngClass]="{
-                            'is-active': modal[i]
+                            'is-active': modal[posts.length-i-1]
                         }"
                     >
                         <div class="modal-background"></div>
@@ -68,22 +68,22 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <figure class="image is-48x48">
-                                                    <img [src]="users[post.author].img" alt="Placeholder image">
+                                                    <img [src]="users[posts[posts.length-i-1].author].img" alt="Placeholder image">
                                                 </figure>
                                             </div>
                                             <div class="media-content">
-                                                <p class="title is-4">{{ users[post.author].username }}</p>
-                                                <p class="subtitle is-6"><a>@{{ users[post.author].username }}</a></p>
+                                                <p class="title is-4">{{ users[posts[posts.length-i-1].author].username }}</p>
+                                                <p class="subtitle is-6"><a>@{{ users[posts[posts.length-i-1].author].username }}</a></p>
                                             </div>
                                         </div>
 
                                         <div class="content">
-                                            {{ post.content }}
+                                            {{ posts[posts.length-i-1].content }}
                                         </div>
 
                                         <div class="tags">
                                             <span class="tag">
-                                                <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:m a'}}</time>
+                                                <time datetime="2016-1-1">{{ posts[posts.length-i-1].date | date: 'MMM d, y, h:mm a'}}</time>
                                             </span>
                                         </div>
                                     </div>
@@ -102,14 +102,14 @@
                                         </div>
                                     </div>
                                     <footer class="card-footer">
-                                        <a (click)="onSendMessage(i, post)" class="card-footer-item"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
-                                        <a (click)="onCloseComment(i)" class="card-footer-item"><b><i class="fas fa-times msg-color"></i> Cancel</b></a>
+                                        <a (click)="onSendMessage(posts.length-i-1, posts[posts.length-i-1])" class="card-footer-item"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
+                                        <a (click)="onCloseComment(posts.length-i-1)" class="card-footer-item"><b><i class="fas fa-times msg-color"></i> Cancel</b></a>
                                     </footer>
                                 </div>
                                 </form> 
                             </article>                         
                         </div>
-                        <button class="modal-close is-large" (click)="onCloseComment(i)" aria-label="close"></button>
+                        <button class="modal-close is-large" (click)="onCloseComment(posts.length-i-1)" aria-label="close"></button>
                     </div>
                     <!-- end modal for comment -->
                 </div>

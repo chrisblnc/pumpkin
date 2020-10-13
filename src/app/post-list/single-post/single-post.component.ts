@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Post } from '../../models/post.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
@@ -36,11 +36,20 @@ export class SinglePostComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private location: Location,
     private router: Router
-  ) { }
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = function(){
+        return false;
+    }
+
+    this.router.events.subscribe((evt) => {
+        if (evt instanceof NavigationEnd) {
+          // trick the Router into believing it's last link wasn't previously loaded
+          this.router.navigated = false;
+        }
+    });
+  }
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
-
     this.userSubscription = this.userService.userSubject.subscribe(
       (users: User[]) => {
         this.users = users;
@@ -54,9 +63,8 @@ export class SinglePostComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.post = new Post(0, '', 0, 0, 0);
     const id = this.route.snapshot.params['id'];
-    this.postService.getSinglePost(+id).then(
+    this.postService.getSinglePost(id).then(
       (post: Post) => {
         this.post = post;
       }
@@ -98,6 +106,7 @@ export class SinglePostComponent implements OnInit, OnDestroy {
     post.msg = post.msg + 1;
     this.postService.savePost();
     this.postService.emitPost();
+    this.router.navigate(['/post', postID]);
   }
 
   onBack() {

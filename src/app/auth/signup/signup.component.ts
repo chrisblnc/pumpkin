@@ -43,12 +43,12 @@ export class SignupComponent implements OnInit {
     const birthday = this.signupForm.get('birthday').value;
     const create_at = this.signupForm.get('create_at').value;
 
-    const newUser = new User(username, email, birthday, create_at);
-    newUser.img = "https://firebasestorage.googleapis.com/v0/b/pumpkin-chrisblnc.appspot.com/o/avatar-default.png?alt=media&token=ea18dc57-a32b-42c8-991e-c020a005fc1c";    
-    this.userService.addUser(newUser);
-
     this.authService.createNewUser(email, password).then(
       () => {
+        const newUser = new User(username, email, birthday, create_at);
+        newUser.img = "https://firebasestorage.googleapis.com/v0/b/pumpkin-chrisblnc.appspot.com/o/avatar-default.png?alt=media&token=ea18dc57-a32b-42c8-991e-c020a005fc1c";    
+        this.userService.addUser(newUser);
+        
         this.router.navigate(['']);
       },
       (error) => {

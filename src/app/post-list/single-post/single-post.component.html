@@ -22,7 +22,7 @@
                         </div>
                         <div class="tags">
                             <span class="tag">
-                                <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:m a'}}</time>
+                                <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:mm a'}}</time>
                             </span>
                         </div>
 
@@ -45,36 +45,8 @@
                             </span>
                         </div>
                     </div>
-                    <div 
-                        class="card" 
-                        *ngFor="let msg of messages; let i = index"
-                    >
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-left">
-                                    <figure class="image is-48x48">
-                                        <img [src]="users[msg.author].img" alt="Placeholder image">
-                                    </figure>
-                                </div>
-                                <div class="media-content">
-                                    <p class="title is-4">{{ users[msg.author].username }}</p>
-                                    <p class="subtitle is-6"><a>@{{ users[msg.author].username }}</a></p>
-                                </div>
-                            </div>
-
-                            <div class="content">
-                                {{ msg.msg }}
-                            </div>
-
-                            <div class="tags">
-                                <span class="tag">
-                                    <time datetime="2016-1-1">{{ msg.date | date: 'MMM d, y, h:m a'}}</time>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                
+                    
                 <form [formGroup]="messageForm">
                     <div class="card">
                         <div class="card-content">
@@ -92,6 +64,47 @@
                         </footer>
                     </div>
                 </form>
+
+                <div 
+                    class="card"
+                >
+                    <div class="section">
+                        <div class="title is-5">
+                            Commentaires :
+                        </div>
+                    </div>
+
+                    <div 
+                        class="card" 
+                        *ngFor="let msg of messages; let i = index"
+                    >
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img [src]="users[messages[messages.length-i-1].author].img" alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-4">{{ users[messages[messages.length-i-1].author].username }}</p>
+                                    <p class="subtitle is-6"><a>@{{ users[messages[messages.length-i-1].author].username }}</a></p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                {{ messages[messages.length-i-1].msg }}
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag">
+                                    <time datetime="2016-1-1">{{ messages[messages.length-i-1].date | date: 'MMM d, y, h:mm a' }}</time>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
             </div>
         </div>
     </div>
