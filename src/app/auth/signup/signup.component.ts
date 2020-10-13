@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ErrorInputService } from 'src/app/services/error-input.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -8,38 +12,48 @@ import { ErrorInputService } from 'src/app/services/error-input.service';
 })
 export class SignupComponent implements OnInit {
 
-  error = {
-    "pseudo": null,
-    "email": null
-  };
+  signupForm: FormGroup;
+  errorMessage: string;
 
-  submitLock: boolean;
-
-  // for ErrorInputService uses
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.submitLock = false;
+    this.initForm();
   }
 
-  onChange(): void {
-    
-  }
-
-  getError(e: ErrorInputService, field: string): void {
-    this.error[field] = e;
-    if (this.error[field].getState())
-      console.log(field + ": aie c'est vide ca...");
-    else 
-      console.log(field + ": ca c'est bien.");
+  initForm() {
+    this.signupForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
+      birthday: ['', [Validators.required]],
+      create_at: Date.now()
+    });
   }
 
   onSubmit() {
-    console.log("pseudo: " + this.error.pseudo.getState());
-    console.log("email: " + this.error.email.getState());
-  }
+    const username = this.signupForm.get('username').value;
+    const email = this.signupForm.get('email').value;
+    const password = this.signupForm.get('password').value;
+    const birthday = this.signupForm.get('birthday').value;
+    const create_at = this.signupForm.get('create_at').value;
 
-  makeError() {
-    this.error.email.GenerateError("This must be a valid email");
-  }
+    this.authService.createNewUser(email, password).then(
+      () => {
+        const newUser = new User(username, email, birthday, create_at);
+        newUser.img = "https://firebasestorage.googleapis.com/v0/b/pumpkin-chrisblnc.appspot.com/o/avatar-default.png?alt=media&token=ea18dc57-a32b-42c8-991e-c020a005fc1c";    
+        this.userService.addUser(newUser);
+        
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this.errorMessage = error;
+      }
+    );
+  }  
 }

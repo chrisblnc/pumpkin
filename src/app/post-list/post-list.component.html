@@ -1,0 +1,119 @@
+<section class="section">
+     <div class="container block">
+        <div class="columns">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <div 
+                    class="card"
+                    *ngFor="let post of posts; let i = index"
+                    [id]="i"
+                >
+                    <div class="card-content">
+                        <a (click)="onViewPost(posts.length-i-1)">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img [src]="users[posts[posts.length-i-1].author].img" alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-4">{{ users[posts[posts.length-i-1].author].username }}</p>
+                                    <p class="subtitle is-6"><a>@{{ users[posts[posts.length-i-1].author].username }}</a></p>
+                                </div>
+                            </div>
+                            <div class="tags">
+                                <span class="tag">
+                                    <time datetime="2016-1-1">{{ posts[posts.length-i-1].date | date: 'MMM d, y, h:mm a'}}</time>
+                                </span>
+                            </div>
+
+                            <div class="block card-image" *ngIf="posts[posts.length-i-1].img">
+                                <figure class="image is-4by3">
+                                    <img [src]="posts[posts.length-i-1].img" alt="Placeholder image">
+                                </figure>
+                            </div>
+
+                            <div class="content">
+                                {{ posts[posts.length-i-1].content }}
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag">
+                                    <b class="has-text-info">{{ posts[posts.length-i-1].like }} Like</b>
+                                </span>
+                                <span class="tag">
+                                    <b class="has-text-info">{{ posts[posts.length-i-1].msg }} Comment</b>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <footer class="card-footer">
+                        <a (click)="onLike(posts[posts.length-i-1])" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
+                        <a (click)="onOpenComment(posts.length-i-1)" class="card-footer-item"><b><i class="far fa-comments msg-color"></i> Msg</b></a>
+                        <a class="card-footer-item"><b><i class="fas fa-share share-color"></i> Share</b></a>
+                    </footer>
+
+                    <!-- modal for comment -->
+                    <div 
+                        class="modal" 
+                        [ngClass]="{
+                            'is-active': modal[posts.length-i-1]
+                        }"
+                    >
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <article class="panel is-primary">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img [src]="users[posts[posts.length-i-1].author].img" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{ users[posts[posts.length-i-1].author].username }}</p>
+                                                <p class="subtitle is-6"><a>@{{ users[posts[posts.length-i-1].author].username }}</a></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="content">
+                                            {{ posts[posts.length-i-1].content }}
+                                        </div>
+
+                                        <div class="tags">
+                                            <span class="tag">
+                                                <time datetime="2016-1-1">{{ posts[posts.length-i-1].date | date: 'MMM d, y, h:mm a'}}</time>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="panel-heading" style="border-radius: 0px !important;">
+                                    Messages
+                                </p>
+                                <form [formGroup]="messageForm">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="field">
+                                            <label class="label">Enter your message</label>
+                                            <div class="control">
+                                                <textarea class="textarea" placeholder="Type something" formControlName="msg"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a (click)="onSendMessage(posts.length-i-1, posts[posts.length-i-1])" class="card-footer-item"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
+                                        <a (click)="onCloseComment(posts.length-i-1)" class="card-footer-item"><b><i class="fas fa-times msg-color"></i> Cancel</b></a>
+                                    </footer>
+                                </div>
+                                </form> 
+                            </article>                         
+                        </div>
+                        <button class="modal-close is-large" (click)="onCloseComment(posts.length-i-1)" aria-label="close"></button>
+                    </div>
+                    <!-- end modal for comment -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

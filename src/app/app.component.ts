@@ -8,18 +8,19 @@ import * as firebase from 'firebase';
 })
 export class AppComponent {
   private firebaseConfig = {
-    apiKey: "AIzaSyCneTRpvNb82URMBjeUtMzCeQJTurSVlqo",
-    authDomain: "angular-blog-7d4b0.firebaseapp.com",
-    databaseURL: "https://angular-blog-7d4b0.firebaseio.com",
-    projectId: "angular-blog-7d4b0",
-    storageBucket: "angular-blog-7d4b0.appspot.com",
-    messagingSenderId: "711545755854",
-    appId: "1:711545755854:web:b2ab10831241c11203d89f",
-    measurementId: "G-08Y2RQV071"
+    apiKey: "AIzaSyA_Rhnf0de92cagRE_JkdYkSm7C7PwdcqM",
+    authDomain: "pumpkin-chrisblnc.firebaseapp.com",
+    databaseURL: "https://pumpkin-chrisblnc.firebaseio.com",
+    projectId: "pumpkin-chrisblnc",
+    storageBucket: "pumpkin-chrisblnc.appspot.com",
+    messagingSenderId: "753739167859",
+    appId: "1:753739167859:web:0d158254833e6b12a29206",
+    measurementId: "G-WJE3GSCGZ8"
   };
 
   constructor() {
     firebase.initializeApp(this.firebaseConfig);
+    firebase.analytics();
   }
 
 }

@@ -2,7 +2,7 @@
 <nav class="navbar is-fixed-top level is-mobile">
     <!-- Left side -->
     <div class="level-left">
-        <p class="level-item"><a routerLink="">
+        <p class="level-item"><a routerLink="post" (click)="scrollTop()">
             <h5 class="title is-5">Pumpkin</h5>
         </a></p>
     </div>
@@ -11,6 +11,8 @@
     <div class="level-right">
         <p 
             class="level-item"
+            routerLinkActive="active"
+            *ngIf="!isAuth"
         >
             <a 
                 class="button is-primary"
@@ -21,18 +23,31 @@
         </p>
         <p 
             class="level-item"
+            routerLinkActive="active"
+            *ngIf="!isAuth"
         >
             <a 
                 class="button is-light"
-                routerLink="login"
+                routerLink="signin"
             >
-                <b>Log in</b>
+                <b>Sign in</b>
             </a>
         </p>
-        <p 
-            class="level-item is-hidden"
-        >
-            <a class="button is-light">
+        <p class="level-item">
+            <a 
+                class="button is-primary"
+                routerLink="post/new"
+                *ngIf="isAuth"
+            >
+                <b>Create post</b>
+            </a>
+        </p>
+        <p class="level-item">
+            <a 
+                class="button is-light"
+                (click)="onSignOut()"
+                *ngIf="isAuth"
+            >
                 <b>Log out</b>
             </a>
         </p>

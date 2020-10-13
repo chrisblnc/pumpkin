@@ -1,0 +1,66 @@
+<app-header title="Create post"></app-header>
+<section class="section container">
+    
+    <div class="columns">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <div class="block" *ngIf="fileUploaded">
+                <figure class="image is-4by3">
+                    <img src="{{ fileUrl }}">
+                </figure>
+            </div>
+            
+            <form [formGroup]="postForm" (ngSubmit)="onSubmitPost()">
+                    <div class="field">
+                        <label class="label">Content of your post</label>
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Type something" formControlName="content"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div 
+                            class="file is-primary"
+                            [ngClass]="{
+                                'is-hidden': fileUploaded
+                            }"
+                        >
+                            <label class="file-label">
+                                <input 
+                                    class="file-input" 
+                                    type="file" 
+                                    name="resume"
+                                    (change)="detectFiles($event)"
+                                    accept="image/*"
+                                >
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-image"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Add picture
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button 
+                                class="button is-link" 
+                                [disabled]="postForm.invalid || fileIsUploading"
+                                [ngClass]="{
+                                    'is-loading': fileIsUploading
+                                }"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-link is-light">Cancel</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</section>
