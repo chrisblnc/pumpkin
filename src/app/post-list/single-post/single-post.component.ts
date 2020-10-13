@@ -66,11 +66,12 @@ export class SinglePostComponent implements OnInit, OnDestroy {
     );
 
     const id = this.route.snapshot.params['id'];
-    this.postService.getSinglePost(id).then(
-      (post: Post) => {
-        this.post = post;
+    this.postSubscription = this.postService.postsSubject.subscribe(
+      (posts: Post[]) => {
+        this.post = posts[id];
       }
     );
+    this.postService.emitPost();
 
     this.messageSubscription = this.messageService.messagesSubject.subscribe(
       (messages: Message[]) => {
