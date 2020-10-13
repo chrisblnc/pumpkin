@@ -1,0 +1,31 @@
+<section class="section">
+    <div class="container block">
+        <div class="columns">
+            <div class="card" *ngFor="let user of users">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img [src]="user.img">
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <p class="title is-4">{{ user.username }}</p>
+                            <p class="subtitle is-6">@{{ user.username }}</p>
+                        </div>
+                    </div>
+
+                    <div class="tags">
+                        <span class="tag">
+                            <time datetime="2016-1-1">Member since  {{ user.create_at | date: 'MMM d, y'}}</time>
+                        </span>
+                    </div>
+
+                    <div class="content">
+                        <i class="fas fa-birthday-cake birth-color"></i> {{ user.birthday | date: 'MMM d, y'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

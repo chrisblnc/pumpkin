@@ -1,21 +1,9 @@
-<app-header title="Sign up"></app-header>
+<app-header title="Sign in"></app-header>
 <section class="section container">
     <div class="columns">
         <div class="column is-three-fifths is-offset-one-fifth">
 
-            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="block">
-                <div class="container block">
-                    <div class="field">
-                        <label class="label">Username</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="text" placeholder="Username" formControlName="username">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-user"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
+            <form [formGroup]="signinForm" (ngSubmit)="onSubmit()" class="block">
                 <div class="container block">
                     <div class="field">
                         <label class="label">Email</label>
@@ -41,21 +29,9 @@
                 </div>
 
                 <div class="container block">
-                    <div class="field">
-                        <label class="label">Birthday</label>
-                        <div class="control has-icons-left">
-                            <input class="input" type="date" placeholder="Name" formControlName="birthday">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-birthday-cake"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container block">
                     <div class="field is-grouped">
                         <div class="control">
-                            <button class="button is-link" [disabled]="signupForm.invalid">Submit</button>
+                            <button class="button is-link" [disabled]="signinForm.invalid">Submit</button>
                         </div>
                         <div class="control">
                             <button class="button is-link is-light">Cancel</button>
@@ -64,10 +40,9 @@
                 </div>
             </form>
 
-            <!-- not yet register field -->
             <div class="container block">
                 <div class="field">
-                    Already have an account ? <a routerLink="/signin">Sign in</a> now.
+                    Not registered ? <a routerLink="/signup">Sign up</a> know.
                 </div>
             </div>
             

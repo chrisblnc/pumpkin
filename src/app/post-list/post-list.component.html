@@ -1,0 +1,119 @@
+<section class="section">
+     <div class="container block">
+        <div class="columns">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <div 
+                    class="card"
+                    *ngFor="let post of posts; let i = index"
+                    [id]="i"
+                >
+                    <div class="card-content">
+                        <a (click)="onViewPost(i)">
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img [src]="users[post.author].img" alt="Placeholder image">
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <p class="title is-4">{{ users[post.author].username }}</p>
+                                    <p class="subtitle is-6"><a>@{{ users[post.author].username }}</a></p>
+                                </div>
+                            </div>
+                            <div class="tags">
+                                <span class="tag">
+                                    <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:m a'}}</time>
+                                </span>
+                            </div>
+
+                            <div class="block card-image" *ngIf="post.img">
+                                <figure class="image is-4by3">
+                                    <img [src]="post.img" alt="Placeholder image">
+                                </figure>
+                            </div>
+
+                            <div class="content">
+                                {{ post.content }}
+                            </div>
+
+                            <div class="tags">
+                                <span class="tag">
+                                    <b class="has-text-info">{{ post.like }} Like</b>
+                                </span>
+                                <span class="tag">
+                                    <b class="has-text-info">{{ post.msg }} Comment</b>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <footer class="card-footer">
+                        <a (click)="onLike(post)" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
+                        <a (click)="onOpenComment(i)" class="card-footer-item"><b><i class="far fa-comments msg-color"></i> Msg</b></a>
+                        <a class="card-footer-item"><b><i class="fas fa-share share-color"></i> Share</b></a>
+                    </footer>
+
+                    <!-- modal for comment -->
+                    <div 
+                        class="modal" 
+                        [ngClass]="{
+                            'is-active': modal[i]
+                        }"
+                    >
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <article class="panel is-primary">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <figure class="image is-48x48">
+                                                    <img [src]="users[post.author].img" alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <p class="title is-4">{{ users[post.author].username }}</p>
+                                                <p class="subtitle is-6"><a>@{{ users[post.author].username }}</a></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="content">
+                                            {{ post.content }}
+                                        </div>
+
+                                        <div class="tags">
+                                            <span class="tag">
+                                                <time datetime="2016-1-1">{{ post.date | date: 'MMM d, y, h:m a'}}</time>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="panel-heading" style="border-radius: 0px !important;">
+                                    Messages
+                                </p>
+                                <form [formGroup]="messageForm">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="field">
+                                            <label class="label">Enter your message</label>
+                                            <div class="control">
+                                                <textarea class="textarea" placeholder="Type something" formControlName="msg"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a (click)="onSendMessage(i, post)" class="card-footer-item"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
+                                        <a (click)="onCloseComment(i)" class="card-footer-item"><b><i class="fas fa-times msg-color"></i> Cancel</b></a>
+                                    </footer>
+                                </div>
+                                </form> 
+                            </article>                         
+                        </div>
+                        <button class="modal-close is-large" (click)="onCloseComment(i)" aria-label="close"></button>
+                    </div>
+                    <!-- end modal for comment -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
