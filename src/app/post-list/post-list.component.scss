@@ -21,3 +21,10 @@
 .content {
     color: #363636;
 }
+
+.is-disabled {
+    color: #363636;
+    box-shadow: none;
+    opacity: 0.5 !important;
+	cursor: not-allowed;
+}

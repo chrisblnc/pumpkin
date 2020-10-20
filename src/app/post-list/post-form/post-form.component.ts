@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { Post } from '../../models/post.model';
 import * as firebase from 'firebase';
 import { PostService } from '../../services/post.service';
@@ -25,6 +26,7 @@ export class PostFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private postService: PostService,
     private userService: UserService,
+    private location: Location,
     private router: Router
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function(){
@@ -88,4 +90,9 @@ export class PostFormComponent implements OnInit {
     this.postService.createNewPost(newPost);
     this.router.navigate(['/post']);
   }
+
+  onCancel() {
+    this.location.back();
+  }
+
 }

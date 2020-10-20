@@ -1,8 +1,79 @@
-<footer class="footer">
-    <div class="content has-text-centered">
-        <p>
-            Made with <b class="title is-5" style="color: red;">♥</b>. <br>
-            Copyright © 2020 <a href="https://chrisblnc.fr" target="_blank" rel="noopener noreferrer">Christian</a>.
+<nav class="navbar is-fixed-bottom footer level is-mobile" 
+*ngIf="isAuth">
+    <div class="content has-text-centered level-item">
+        <div class="level-item">
+
+            <a 
+                class="button is-light" 
+                (click)="onOpenModalFooter()"
+            >
+                <b><i class="fas fa-user"></i> Profile</b>
+            </a>
+
+            <div class="modal" id="modal-menu-footer">
+                <div class="modal-background" (click)="onCloseModalFooter()"></div>
+                <div class="modal-content">
+                  <!-- Any other Bulma elements you want -->
+                  
+                    <div class="menu">
+                        <ul class="menu-list">
+                            <li>
+                                <a 
+                                    class="button is-link"
+                                    routerLink=""
+                                >
+                                    <b><i class="fas fa-user-edit"></i> Edit profile</b>
+                                </a>
+                            </li>
+                            <br>
+                            <li>
+                                <a 
+                                    class="button is-link"
+                                    routerLink=""
+                                >
+                                    <b><i class="fas fa-users"></i> Friends</b>
+                                </a>
+                            </li>
+                            <br>
+                            <li>
+                                <a 
+                                    class="button is-link"
+                                    routerLink=""
+                                >
+                                    <b><i class="fas fa-moon"></i> Dark mode</b>
+                                </a>
+                            </li>
+                            <br>
+                            <li>
+                                <a 
+                                    class="button is-link"
+                                    routerLink=""
+                                >
+                                    <b><i class="fas fa-cogs"></i> Setting</b>
+                                </a>
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
+                <button class="modal-close is-large" (click)="onCloseModalFooter()" aria-label="close"></button>
+            </div>
+
+        </div>
+        <p class="level-item">
+            <a 
+                class="button is-light"
+                routerLink=""
+            >
+                <b><i class="fas fa-search"></i> Search</b>
+            </a>
+        </p>
+        <p class="level-item">
+            <a 
+                class="button is-light"
+                routerLink=""
+            >
+                <b><i class="fas fa-bell"></i> Notification</b>
+            </a>
         </p>
     </div>
-</footer>
+</nav>

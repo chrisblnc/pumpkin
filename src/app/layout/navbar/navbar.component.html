@@ -18,7 +18,7 @@
                 class="button is-primary"
                 routerLink="signup"
             >
-                <b>Sign up</b>
+                <b><i class="fas fa-user-plus"></i> Sign up</b>
             </a>
         </p>
         <p 
@@ -30,7 +30,7 @@
                 class="button is-light"
                 routerLink="signin"
             >
-                <b>Sign in</b>
+                <b><i class="fas fa-sign-in-alt"></i> Sign in</b>
             </a>
         </p>
         <p class="level-item">
@@ -39,7 +39,7 @@
                 routerLink="post/new"
                 *ngIf="isAuth"
             >
-                <b>Create post</b>
+                <b><i class="fas fa-plus"></i> Create post</b>
             </a>
         </p>
         <p class="level-item">
@@ -48,7 +48,7 @@
                 (click)="onSignOut()"
                 *ngIf="isAuth"
             >
-                <b>Log out</b>
+                <b><i class="fas fa-power-off"></i> Log out</b>
             </a>
         </p>
     </div>

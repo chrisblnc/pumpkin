@@ -48,8 +48,8 @@
                     </div>
 
                     <footer class="card-footer">
-                        <a (click)="onLike(posts[posts.length-i-1])" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
-                        <a (click)="onOpenComment(posts.length-i-1)" class="card-footer-item"><b><i class="far fa-comments msg-color"></i> Msg</b></a>
+                        <a (click)="onLike(posts[posts.length-i-1], posts.length-i-1)" id="btn-like-post{{ posts.length-i-1 }}" class="card-footer-item"><b><i class="fas fa-heart like-color"></i> Like</b></a>
+                        <a (click)="onOpenComment(posts.length-i-1)" class="card-footer-item"><b><i class="fas fa-comments msg-color"></i> Msg</b></a>
                         <a class="card-footer-item"><b><i class="fas fa-share share-color"></i> Share</b></a>
                     </footer>
 
@@ -60,7 +60,7 @@
                             'is-active': modal[posts.length-i-1]
                         }"
                     >
-                        <div class="modal-background"></div>
+                        <div class="modal-background" (click)="onCloseComment(posts.length-i-1)"></div>
                         <div class="modal-content">
                             <article class="panel is-primary">
                                 <div class="card">
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                                 <p class="panel-heading" style="border-radius: 0px !important;">
-                                    Messages
+                                    Let a message
                                 </p>
                                 <form [formGroup]="messageForm">
                                 <div class="card">

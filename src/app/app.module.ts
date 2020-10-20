@@ -15,8 +15,8 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { PostService } from './services/post.service';
 import { UserService } from './services/user.service';
 import { MessageService } from './services/message.service';
+import { LikeService } from './services/like.service';
 
-import { from } from 'rxjs';
 import { SigninComponent } from './auth/signin/signin.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -52,7 +52,8 @@ import { UserlistComponent } from './userlist/userlist.component';
     AuthGuardService,
     PostService, 
     UserService,
-    MessageService
+    MessageService,
+    LikeService
   ],
   bootstrap: [AppComponent]
 })

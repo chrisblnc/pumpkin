@@ -8,6 +8,8 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { Message } from '../../models/message.model';
 import { MessageService } from '../../services/message.service';
+import { Like } from '../../models/like.model';
+import { LikeService } from '../../services/like.service';
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 
@@ -27,12 +29,15 @@ export class SinglePostComponent implements OnInit, OnDestroy {
   messageForm: FormGroup;
   postID: number;
   postSubscription: Subscription;
+  likes: Like[];
+  likeSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute, 
     private postService: PostService,
     private userService: UserService,
     private messageService: MessageService,
+    private likeService: LikeService,
     private formBuilder: FormBuilder,
     private location: Location,
     private router: Router
@@ -84,6 +89,13 @@ export class SinglePostComponent implements OnInit, OnDestroy {
     );
     this.messageService.emitMessages();
 
+    this.likeSubscription = this.likeService.likesSubject.subscribe(
+      (likes: Like[]) => {
+        this.likes = likes;
+      }
+    );
+    this.likeService.emitLikes();
+
     this.postID = id;
     this.initForm();
   }
@@ -94,6 +106,35 @@ export class SinglePostComponent implements OnInit, OnDestroy {
       like: 0,
       date: Date
     });
+  }
+
+  onLike(post: Post) {
+    const date = Date.now();
+
+    var alreadyLike;
+    var lastLike;
+
+    this.likes.forEach(like => {
+      if (like.author == this.userID)
+        alreadyLike = true;
+        lastLike = like;
+    });
+
+
+    if (!alreadyLike) {
+      const newLike = new Like(this.userID, date, this.postID);
+      this.likeService.addLike(newLike);
+
+      post.like = post.like + 1;
+      this.postService.savePost();
+      this.postService.emitPost();
+    } else {
+      this.likeService.removeLike(lastLike);
+
+      post.like = post.like - 1;
+      this.postService.savePost();
+      this.postService.emitPost();
+    }
   }
 
   onSendMessage(post: Post): void {
@@ -114,12 +155,6 @@ export class SinglePostComponent implements OnInit, OnDestroy {
 
   onBack() {
     this.location.back();
-  }
-
-  onLike(post: Post) {
-    post.like = post.like + 1;
-    this.postService.savePost();
-    this.postService.emitPost();
   }
 
   ngOnDestroy(): void {

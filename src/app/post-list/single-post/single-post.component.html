@@ -56,23 +56,24 @@
                                     <textarea class="textarea" placeholder="Type something" formControlName="msg"></textarea>
                                 </div>
                             </div>
+                            <div class="control">
+                                <a class="button" (click)="onSendMessage(post)"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
+                            </div>
                         </div>
+                        
                         <footer class="card-footer">
-                            <a (click)="onLike(post)" class="card-footer-item"><b><i class="far fa-heart like-color"></i> Like</b></a>
-                            <a (click)="onSendMessage(post)" class="card-footer-item"><b><i class="fas fa-paper-plane share-color"></i> Comment</b></a>
+                            <a (click)="onLike(post)" class="card-footer-item"><b><i class="fas fa-heart like-color"></i> Like</b></a>
                             <a class="card-footer-item"><b><i class="fas fa-share share-color"></i> Share</b></a>
                         </footer>
                     </div>
                 </form>
 
                 <div 
-                    class="card"
+                    class="card panel is-primary"
                 >
-                    <div class="section">
-                        <div class="title is-5">
-                            Commentaires :
-                        </div>
-                    </div>
+                    <p class="panel-heading" style="border-radius: 0px !important;">
+                        Messages
+                    </p>
 
                     <div 
                         class="card" 

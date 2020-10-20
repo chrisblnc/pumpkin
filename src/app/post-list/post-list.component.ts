@@ -3,9 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../services/post.service';
 import { UserService } from '../services/user.service';
 import { MessageService } from '../services/message.service';
+import { LikeService } from '../services/like.service';
 import { User } from '../models/user.model';
 import { Post } from '../models/post.model';
 import { Message } from '../models/message.model';
+import { Like } from '../models/like.model';
 import * as firebase from 'firebase';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -22,13 +24,18 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   posts: Post[];
   users: User[];
+  likes: Like[];
+
   postSubscription: Subscription;
   userSubscription: Subscription;
+  likeSubscription: Subscription;
+
   modal: boolean[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private messageService: MessageService,
+    private likeService: LikeService,
     private postService: PostService,
     private userService: UserService,
     private router: Router
@@ -46,8 +53,15 @@ export class PostListComponent implements OnInit, OnDestroy {
       (users: User[]) => {
         this.users = users;
       }
-    )
+    );
     this.userService.emitUsers();
+
+    this.likeSubscription = this.likeService.likesSubject.subscribe(
+      (likes: Like[]) => {
+        this.likes = likes;
+      }
+    );
+    this.likeService.emitLikes();
 
     this.userService.getUserID(firebase.auth().currentUser.email).then(
       (id: number) => {
@@ -78,10 +92,55 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/post', id]);
   }
 
-  onLike(post: Post) {
-    post.like = post.like + 1;
-    this.postService.savePost();
-    this.postService.emitPost();
+  /*
+  checkLike(post: Post): boolean {
+    var alreadyLike = false;
+
+    this.likes.forEach(like => {
+      if (like.author == post.author)
+        alreadyLike = true;
+    });
+
+    return alreadyLike;
+  }
+  */
+
+  onLike(post: Post, id: number) {
+    const date = Date.now();
+
+    const like = document.getElementById('btn-like-post'+id);
+    //like.classList.add('is-disabled');
+    like.style.color = "red";
+
+    console.log("post : " + post.like);
+    console.log("id : " + id);
+
+    var alreadyLike;
+    var lastLike;
+
+    this.likes.forEach(like => {
+      if (like.post == id)
+        if (like.author == this.userID) {
+          alreadyLike = true;
+          lastLike = like;
+        }
+    });
+
+
+    if (!alreadyLike) {
+      const newLike = new Like(this.userID, date, id);
+      this.likeService.addLike(newLike);
+
+      post.like = post.like + 1;
+      this.postService.savePost();
+      this.postService.emitPost();
+    } else {
+      this.likeService.removeLike(lastLike);
+
+      post.like = post.like - 1;
+      this.postService.savePost();
+      this.postService.emitPost();
+    }
   }
 
   ngOnDestroy(): void {
