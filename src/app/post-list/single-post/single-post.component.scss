@@ -13,3 +13,9 @@
 .content {
     color: #363636;
 }
+
+.single-card {
+    .card {
+        box-shadow: none !important;
+    }
+}
