@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -53,7 +54,8 @@ import { UserlistComponent } from './userlist/userlist.component';
     PostService, 
     UserService,
     MessageService,
-    LikeService
+    LikeService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })
